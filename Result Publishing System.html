@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Result System | All-in-One</title>
+
+    <style>
+        :root {
+            --sidebar-color: #2c3e50;
+            --accent: #3498db;
+            --success: #27ae60;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: flex; /* Flexbox simulates the 'Frames' structure */
+            height: 100vh;
+            background-color: #eef2f3;
+        }
+
+        /* Side Frame Styling */
+        nav {
+            width: 240px;
+            background-color: var(--sidebar-color);
+            color: white;
+            padding-top: 20px;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+
+        nav h2 { text-align: center; font-size: 1.1rem; border-bottom: 1px solid #444; padding-bottom: 10px; }
+
+        .nav-link {
+            display: block;
+            padding: 15px 25px;
+            color: #bdc3c7;
+            text-decoration: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .nav-link:hover {
+            background-color: #34495e;
+            color: white;
+            padding-left: 35px;
+        }
+
+        /* Main Frame Styling */
+        main {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .container {
+            background: white;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        /* Result Specific Styling */
+        .search-area { display: flex; gap: 10px; margin-bottom: 25px; }
+        input[type="text"] { flex: 1; padding: 12px; border: 2px solid #ddd; border-radius: 6px; }
+        
+        button { 
+            padding: 12px 24px; 
+            background: var(--accent); 
+            color: white; 
+            border: none; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-weight: bold;
+        }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background: #f8f9fa; color: #555; }
+
+        .error { color: #e74c3c; margin-top: 10px; font-weight: bold; }
+
+        /* Map and Hotspot Styling */
+        .map-box {
+            border: 2px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <h2>RESULT-PORTAL</h2>
+        <a class="nav-link" onclick="toggleView('search')">Search Results</a>
+        <a class="nav-link" onclick="toggleView('campus')">Campus Map</a>
+        <a class="nav-link" onclick="toggleView('support')">Support Hotspots</a>
+        <hr style="border: 0.5px solid #444; margin: 10px 20px;">
+        <a href="https://www.rajalakshmi.org/" target="_blank" class="nav-link">Official Website ↗</a>
+    </nav>
+
+    <main>
+        <div class="container">
+            
+            <section id="search-view">
+                <h1 style="color: var(--sidebar-color); border-bottom: 3px solid var(--accent); padding-bottom: 10px;">
+                    	Examination 2025-2026
+                </h1>
+                
+                <div class="search-area">
+                    <input type="text" id="rollNo" placeholder="Enter Roll Number (e.g. 101, 102, 103)">
+                    <button onclick="findResult()">Find Result</button>
+                </div>
+
+                <div id="errorMsg" class="error"></div>
+
+                <div id="resultCard" style="display:none; animation: fadeIn 0.5s;">
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; display: flex; justify-content: space-between;">
+                        <span><strong>Name:</strong> <span id="sName"></span></span>
+                        <span><strong>GPA:</strong> <span id="sGPA" style="color: var(--success); font-weight: bold;"></span></span>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr><th>Subject</th><th>Score</th><th>Grade</th></tr>
+                        </thead>
+                        <tbody id="resultTableBody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="campus-view" style="display:none;">
+                <h1 style="color: var(--sidebar-color);">Campus Location</h1>
+                <p>Find our physical examination center below:</p>
+                <div class="map-box">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3887.4258203018458!2d80.00089457507708!3d13.008533387310248!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a528c9ebac84723%3A0x18e2bf88dfefa3ed!2sRajalakshmi%20Engineering%20College!5e0!3m2!1sen!2sin!4v1770375025376!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>" 
+ 
+                    </iframe>
+                </div>
+            </section>
+
+            <section id="support-view" style="display:none;">
+                <h1 style="color: var(--sidebar-color);">Support Hotspots</h1>
+                <p>Click on the specific zone for help:</p>
+                
+                
+                
+                <div class="map-box">
+                    <img src="rec_logo.png" 
+                         usemap="#helpmap" style="width: 100%;">
+
+                    <map name="helpmap">
+                        <area shape="rect" coords="0,0,400,200" alt="Academic" href="javascript:void(0)" onclick="alert('Navigating to Academic Support...')">
+                        <area shape="rect" coords="401,0,800,200" alt="Tech" href="javascript:void(0)" onclick="alert('Opening Tech Support Chat...')">
+                    </map>
+                </div>
+                <p style="font-size: 0.85rem; color: #666; margin-top: 10px;">
+                    * The Left Side (Zone A) and Right Side (Zone B) are interactive hotspots.
+                </p>
+            </section>
+
+        </div>
+    </main>
+
+    <script>
+        // MOCK DATABASE
+        const database = {
+            "149": { name: "Naresh kumar", gpa: "3.85", scores: [{ sub: "OTA", mark: 88, grade: "A" }, { sub: "Web Technology", mark: 96, grade: "B+" }, { sub: "Software Constraction", mark: 92, grade: "A+" }] },
+            "147": { name: "Sri sidtharthan", gpa: "3.60", scores: [{ sub: "OTAI", mark: 75, grade: "B+" },{ sub: "Web Technology", mark: 93, grade: "B+" }, { sub: "Software Constraction", mark: 89, grade: "A" }] },
+            "148": { name: "Prasham Jaganathan", gpa: "4.00", scores: [{ sub: "OTAI", mark: 98, grade: "A+" }, { sub: "Web Technology", mark: 95, grade: "B+" }, { sub: "Software Constraction", mark: 100, grade: "A+" }] }
+        };
+
+        // VIEW TOGGLE LOGIC
+        function toggleView(view) {
+            document.getElementById('search-view').style.display = (view === 'search') ? 'block' : 'none';
+            document.getElementById('campus-view').style.display = (view === 'campus') ? 'block' : 'none';
+            document.getElementById('support-view').style.display = (view === 'support') ? 'block' : 'none';
+        }
+
+        // FIND RESULT LOGIC
+        function findResult() {
+            const input = document.getElementById('rollNo').value.trim();
+            const card = document.getElementById('resultCard');
+            const error = document.getElementById('errorMsg');
+            const tableBody = document.getElementById('resultTableBody');
+
+            error.innerText = "";
+            card.style.display = "none";
+            tableBody.innerHTML = "";
+
+            if (database[input]) {
+                const student = database[input];
+                document.getElementById('sName').innerText = student.name;
+                document.getElementById('sGPA').innerText = student.gpa;
+
+                student.scores.forEach(item => {
+                    tableBody.innerHTML += `<tr><td>${item.sub}</td><td>${item.mark}</td><td>${item.grade}</td></tr>`;
+                });
+                card.style.display = "block";
+            } else {
+                error.innerText = "Invalid Roll Number. Please use 101, 102, or 103.";
+            }
+        }
+    </script>
+</body>
+</html>
